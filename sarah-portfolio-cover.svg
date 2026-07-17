@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="100%" height="100%">
+  <!-- Definitions & Effects -->
+  <defs>
+    <!-- Background & Element Gradients -->
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="60%" stop-color="#020617" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+    
+    <linearGradient id="primary-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+
+    <linearGradient id="accent-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8" />
+      <stop offset="100%" stop-color="#c084fc" />
+    </linearGradient>
+
+    <!-- Glowing Background Effects -->
+    <radialGradient id="glow-left" cx="0%" cy="0%" r="50%">
+      <stop offset="0%" stop-color="#4f46e5" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#4f46e5" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="glow-right" cx="100%" cy="100%" r="60%">
+      <stop offset="0%" stop-color="#a855f7" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#a855f7" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Shadows -->
+    <filter id="drop-shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#0f172a" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <!-- Main Background -->
+  <rect width="1200" height="630" fill="url(#bg-gradient)" />
+  <rect width="1200" height="630" fill="url(#glow-left)" />
+  <rect width="1200" height="630" fill="url(#glow-right)" />
+
+  <!-- Decorative Grid Lines -->
+  <g stroke="rgba(255, 255, 255, 0.02)" stroke-width="1">
+    <line x1="100" y1="0" x2="100" y2="630" />
+    <line x1="300" y1="0" x2="300" y2="630" />
+    <line x1="500" y1="0" x2="500" y2="630" />
+    <line x1="700" y1="0" x2="700" y2="630" />
+    <line x1="900" y1="0" x2="900" y2="630" />
+    <line x1="1100" y1="0" x2="1100" y2="630" />
+    <line x1="0" y1="150" x2="1200" y2="150" />
+    <line x1="0" y1="350" x2="1200" y2="350" />
+    <line x1="0" y1="500" x2="1200" y2="500" />
+  </g>
+
+  <!-- Right Side: Project Features Card (Glassmorphism) -->
+  <g transform="translate(680, 95)" filter="url(#drop-shadow)">
+    <rect width="440" height="440" rx="32" fill="rgba(255, 255, 255, 0.03)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1.5" />
+    
+    <!-- Executive Tie / Profile Badge Icon -->
+    <rect x="40" y="40" width="70" height="70" rx="20" fill="url(#primary-grad)" />
+    <path d="M 75 58 L 87 70 L 75 92 L 63 70 Z" fill="#ffffff" />
+    <circle cx="75" cy="54" r="5" fill="#ffffff" />
+
+    <text x="130" y="70" font-family="'Inter', sans-serif" font-size="24" font-weight="800" fill="#ffffff">Sarah Ahmed</text>
+    <text x="130" y="98" font-family="'Inter', sans-serif" font-size="14" font-weight="600" fill="#94a3b8" letter-spacing="1">DIGITAL PORTFOLIO</text>
+
+    <line x1="40" y1="145" x2="400" y2="145" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+
+    <!-- Project Features (English Description) -->
+    <g transform="translate(40, 180)">
+      <circle cx="15" cy="15" r="15" fill="rgba(79, 70, 229, 0.15)" />
+      <path d="M 10 15 L 14 19 L 21 11" fill="none" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="45" y="21" font-family="'Inter', sans-serif" font-size="16" font-weight="700" fill="#e2e8f0">Full Bilingual Localization (EN / AR)</text>
+    </g>
+
+    <g transform="translate(40, 240)">
+      <circle cx="15" cy="15" r="15" fill="rgba(79, 70, 229, 0.15)" />
+      <path d="M 10 15 L 14 19 L 21 11" fill="none" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="45" y="21" font-family="'Inter', sans-serif" font-size="16" font-weight="700" fill="#e2e8f0">Smooth Dark &amp; Light Mode Toggle</text>
+    </g>
+
+    <g transform="translate(40, 300)">
+      <circle cx="15" cy="15" r="15" fill="rgba(168, 85, 247, 0.15)" />
+      <path d="M 10 15 L 14 19 L 21 11" fill="none" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="45" y="21" font-family="'Inter', sans-serif" font-size="16" font-weight="700" fill="#e2e8f0">100% Responsive Layout &amp; Fluid Grid</text>
+    </g>
+
+    <g transform="translate(40, 360)">
+      <circle cx="15" cy="15" r="15" fill="rgba(168, 85, 247, 0.15)" />
+      <path d="M 10 15 L 14 19 L 21 11" fill="none" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="45" y="21" font-family="'Inter', sans-serif" font-size="16" font-weight="700" fill="#e2e8f0">Dynamic Typewriter &amp; Scroll Reveal</text>
+    </g>
+  </g>
+
+  <!-- Left Side: Brief English Description & Tech Stack -->
+  
+  <!-- Top Badge -->
+  <g transform="translate(80, 95)">
+    <rect width="180" height="36" rx="18" fill="rgba(99, 102, 241, 0.12)" stroke="rgba(99, 102, 241, 0.3)" stroke-width="1" />
+    <circle cx="22" cy="18" r="5" fill="#6366f1" />
+    <text x="38" y="23" font-family="'Inter', sans-serif" font-size="13" font-weight="700" fill="#a5b4fc" letter-spacing="0.5">PROJECT OVERVIEW</text>
+  </g>
+
+  <!-- Project Main Headlines -->
+  <text x="80" y="190" font-family="'Inter', sans-serif" font-size="46" font-weight="900" fill="#ffffff" letter-spacing="-0.5">
+    Bilingual Digital Resume
+  </text>
+  <text x="80" y="245" font-family="'Cairo', sans-serif" font-size="34" font-weight="800" fill="url(#accent-grad)">
+    سيرة ذاتية رقمية تفاعلية
+  </text>
+
+  <!-- Graphic Line Separator -->
+  <rect x="80" y="280" width="100" height="5" rx="2.5" fill="url(#primary-grad)" />
+
+  <!-- Concise Project Description in English -->
+  <g font-family="'Inter', sans-serif" font-size="18" font-weight="400" fill="#cbd5e1">
+    <text x="80" y="325">A premium, highly interactive single-page portfolio website</text>
+    <text x="80" y="355">built to showcase executive secretary profile, skills matrix,</text>
+    <text x="80" y="385">and work history with an ultra-modern user interface.</text>
+  </g>
+
+  <!-- Core Tech Stack Section -->
+  <g transform="translate(80, 445)">
+    <text x="0" y="20" font-family="'Inter', sans-serif" font-size="14" font-weight="700" fill="#94a3b8" letter-spacing="1">CORE TECHNOLOGIES &amp; TOOLS</text>
+    
+    <!-- Tech Stack Tags -->
+    <!-- Tag 1: Tailwind CSS -->
+    <g transform="translate(0, 40)">
+      <rect width="145" height="40" rx="12" fill="#0f172a" stroke="rgba(56, 189, 248, 0.2)" stroke-width="1" />
+      <circle cx="20" cy="20" r="6" fill="#38bdf8" />
+      <text x="38" y="25" font-family="'Inter', sans-serif" font-size="14" font-weight="700" fill="#38bdf8">Tailwind CSS</text>
+    </g>
+
+    <!-- Tag 2: HTML5 -->
+    <g transform="translate(155, 40)">
+      <rect width="100" height="40" rx="12" fill="#0f172a" stroke="rgba(227, 79, 38, 0.2)" stroke-width="1" />
+      <circle cx="20" cy="20" r="6" fill="#e34f26" />
+      <text x="38" y="25" font-family="'Inter', sans-serif" font-size="14" font-weight="700" fill="#e34f26">HTML5</text>
+    </g>
+
+    <!-- Tag 3: JavaScript ES6 -->
+    <g transform="translate(265, 40)">
+      <rect width="145" height="40" rx="12" fill="#0f172a" stroke="rgba(247, 223, 30, 0.2)" stroke-width="1" />
+      <circle cx="20" cy="20" r="6" fill="#f7df1e" />
+      <text x="38" y="25" font-family="'Inter', sans-serif" font-size="14" font-weight="700" fill="#f7df1e">JavaScript ES6</text>
+    </g>
+
+    <!-- Tag 4: FontAwesome -->
+    <g transform="translate(420, 40)">
+      <rect width="135" height="40" rx="12" fill="#0f172a" stroke="rgba(168, 85, 247, 0.2)" stroke-width="1" />
+      <circle cx="20" cy="20" r="6" fill="#a855f7" />
+      <text x="38" y="25" font-family="'Inter', sans-serif" font-size="14" font-weight="700" fill="#a855f7">FontAwesome</text>
+    </g>
+  </g>
+</svg>

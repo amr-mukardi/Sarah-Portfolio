@@ -34,8 +34,8 @@
     .reveal { opacity: 0; transform: translateY(28px); filter: blur(4px); transition: opacity .7s ease, transform .7s ease, filter .7s ease; }
     .reveal.revealed { opacity: 1; transform: translateY(0); filter: blur(0); }
 
-    .glass { background: rgba(255,255,255,.72); backdrop-filter: blur(18px); }
-    .dark .glass { background: rgba(15,23,42,.72); }
+    .glass { background: rgba(255,255,255,.82); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+    .dark .glass { background: rgba(15,23,42,.82); }
 
     .cursor { display:inline-block; width:2px; height:1.1em; background: currentColor; margin-inline-start: 4px; vertical-align: -2px; animation: blink 0.8s infinite; }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
@@ -59,16 +59,29 @@
 
     ::selection { background: rgba(99,102,241,.22); }
 
-    /* زر تبديل اللغة */
+    /* تحسين زر تبديل اللغة */
     #lang-toggle .lang-badge {
       transition: transform .25s ease, opacity .25s ease;
     }
     #lang-toggle:hover .lang-badge { transform: translateY(-1px) scale(1.06); }
 
-    /* إعدادات الطباعة لحفظ السيرة الذاتية كـ PDF */
+    /* أنماط إشعارات التوست (Toast Notification) */
+    #toast {
+      visibility: hidden;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #toast.show {
+      visibility: visible;
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* إعدادات الطباعة الاحترافية لتصدير السيرة الذاتية PDF */
     @media print {
       body { background: white !important; color: #1e293b !important; padding-top: 0 !important; }
-      header, footer, .no-print, #contact form, #mobile-menu, #top-progress { display: none !important; }
+      header, footer, .no-print, #contact form, #mobile-menu, #top-progress, #toast { display: none !important; }
       main { padding-top: 0 !important; }
       .reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
       .progress-inner { width: var(--target-width) !important; }
@@ -89,13 +102,19 @@
 <body class="min-h-screen bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-200 transition-colors">
   <div id="top-progress" class="fixed top-0 left-0 z-[60] h-1 w-0 bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500"></div>
 
+  <!-- نظام إشعارات التوست العائم -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] px-6 py-3 rounded-2xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-medium shadow-2xl flex items-center gap-3 text-sm">
+    <i class="fa-solid fa-circle-check text-emerald-400 dark:text-emerald-600 text-lg"></i>
+    <span id="toast-message">تم إرسال رسالتك بنجاح.</span>
+  </div>
+
   <!-- NAV -->
   <header class="fixed inset-x-0 top-0 z-50 no-print">
     <nav class="glass border-b border-white/30 dark:border-white/10 shadow-sm">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="h-16 flex items-center justify-between gap-4">
-          <a href="#home" class="flex items-center gap-3 min-w-0">
-            <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white grid place-items-center shadow-soft shrink-0">
+          <a href="#home" class="flex items-center gap-3 min-w-0 group">
+            <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white grid place-items-center shadow-soft shrink-0 group-hover:scale-105 transition">
               <i class="fa-solid fa-user-tie"></i>
             </div>
             <div class="min-w-0">
@@ -114,25 +133,24 @@
           </div>
 
           <div class="flex items-center gap-2">
-            <!-- تم توحيد لون الأزرار ليكون أزرق الموقع bg-indigo-600 -->
-            <button id="theme-toggle" class="w-11 h-11 rounded-full grid place-items-center bg-indigo-600 text-white hover:bg-indigo-700 hover:scale-105 transition shadow-sm" aria-label="Toggle dark mode">
+            <button id="theme-toggle" class="w-11 h-11 rounded-full grid place-items-center bg-indigo-600 text-white hover:bg-indigo-700 hover:scale-105 transition shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-label="Toggle dark mode">
               <i class="fa-solid fa-moon"></i>
             </button>
 
             <button id="lang-toggle"
-                    class="w-11 h-11 rounded-full flex flex-col items-center justify-center gap-[1px] bg-indigo-600 text-white hover:bg-indigo-700 hover:scale-105 transition shadow-sm"
-                    aria-label="Toggle language" title="Switch to English">
+                    class="w-11 h-11 rounded-full flex flex-col items-center justify-center gap-[1px] bg-indigo-600 text-white hover:bg-indigo-700 hover:scale-105 transition shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    aria-label="Toggle language" title="Switch language">
               <i class="fa-solid fa-globe text-[15px] leading-none"></i>
               <span id="lang-toggle-label" class="lang-badge text-[9px] font-black leading-none tracking-wide">EN</span>
             </button>
 
-            <button id="mobile-toggle" class="lg:hidden w-11 h-11 rounded-full grid place-items-center bg-indigo-600 text-white hover:bg-indigo-700 transition shadow-sm" aria-label="Open menu">
+            <button id="mobile-toggle" class="lg:hidden w-11 h-11 rounded-full grid place-items-center bg-indigo-600 text-white hover:bg-indigo-700 transition shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-label="Open menu">
               <i class="fa-solid fa-bars"></i>
             </button>
           </div>
         </div>
 
-        <div id="mobile-menu" class="lg:hidden hidden pb-4">
+        <div id="mobile-menu" class="lg:hidden hidden pb-4 border-t border-slate-200/50 dark:border-slate-800/50 pt-2">
           <div class="grid grid-cols-2 gap-2 text-sm font-medium text-slate-600 dark:text-slate-300">
             <a href="#home" class="px-4 py-3 rounded-2xl hover:bg-slate-900/5 dark:hover:bg-white/5 transition">الرئيسية</a>
             <a href="#about" class="px-4 py-3 rounded-2xl hover:bg-slate-900/5 dark:hover:bg-white/5 transition">نبذة</a>
@@ -170,31 +188,29 @@
             سكرتيرة تنفيذية محترفة مع أكثر من 10 سنوات من الخبرة في الدعم الإداري وإدارة المكاتب والتواصل متعدد اللغات.
           </p>
 
-          <!-- تم إضافة no-print لإخفاء الأزرار عند حفظ الـ PDF -->
           <div class="mt-8 flex flex-wrap gap-4 no-print">
-            <a href="#contact" class="px-6 py-3 rounded-full bg-indigo-600 text-white font-semibold shadow-soft hover:-translate-y-0.5 hover:bg-indigo-700 transition" data-i18n="hero.cta1">تواصل معي</a>
+            <a href="#contact" class="px-6 py-3 rounded-full bg-indigo-600 text-white font-semibold shadow-soft hover:-translate-y-0.5 hover:bg-indigo-700 transition flex items-center gap-2" data-i18n="hero.cta1">تواصل معي</a>
             <a href="#about" class="px-6 py-3 rounded-full border border-indigo-600 text-indigo-700 dark:text-indigo-300 dark:border-indigo-400 font-semibold hover:bg-indigo-50 dark:hover:bg-white/5 transition" data-i18n="hero.cta2">عرض الملف</a>
-            <!-- تم تحويل الزر ليعمل على الطباعة/حفظ PDF -->
-            <button onclick="window.print()" class="px-6 py-3 rounded-full border border-slate-300 text-slate-700 dark:border-slate-700 dark:text-slate-200 font-semibold hover:bg-slate-900/5 dark:hover:bg-white/5 transition flex items-center gap-2">
+            <button onclick="window.print()" class="px-6 py-3 rounded-full border border-slate-300 text-slate-700 dark:border-slate-700 dark:text-slate-200 font-semibold hover:bg-slate-900/5 dark:hover:bg-white/5 transition flex items-center gap-2" aria-label="Download CV">
               <i class="fa-solid fa-download text-sm"></i>
               <span data-i18n="hero.cta3">تحميل السيرة الذاتية</span>
             </button>
           </div>
 
           <div class="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl">
-            <div class="rounded-2xl bg-white/80 dark:bg-white/5 border border-white/70 dark:border-white/10 p-4 shadow-sm">
+            <div class="rounded-2xl bg-white/80 dark:bg-white/5 border border-white/70 dark:border-white/10 p-4 shadow-sm hover:border-indigo-500/30 transition">
               <div class="text-2xl font-black text-indigo-600 dark:text-indigo-400">10+</div>
               <div class="text-sm text-slate-500 dark:text-slate-400" data-i18n="hero.stat1">سنوات</div>
             </div>
-            <div class="rounded-2xl bg-white/80 dark:bg-white/5 border border-white/70 dark:border-white/10 p-4 shadow-sm">
+            <div class="rounded-2xl bg-white/80 dark:bg-white/5 border border-white/70 dark:border-white/10 p-4 shadow-sm hover:border-indigo-500/30 transition">
               <div class="text-2xl font-black text-indigo-600 dark:text-indigo-400">2</div>
               <div class="text-sm text-slate-500 dark:text-slate-400" data-i18n="hero.stat2">لغات</div>
             </div>
-            <div class="rounded-2xl bg-white/80 dark:bg-white/5 border border-white/70 dark:border-white/10 p-4 shadow-sm">
+            <div class="rounded-2xl bg-white/80 dark:bg-white/5 border border-white/70 dark:border-white/10 p-4 shadow-sm hover:border-indigo-500/30 transition">
               <div class="text-2xl font-black text-indigo-600 dark:text-indigo-400">100%</div>
               <div class="text-sm text-slate-500 dark:text-slate-400" data-i18n="hero.stat3">موثوقية</div>
             </div>
-            <div class="rounded-2xl bg-white/80 dark:bg-white/5 border border-white/70 dark:border-white/10 p-4 shadow-sm">
+            <div class="rounded-2xl bg-white/80 dark:bg-white/5 border border-white/70 dark:border-white/10 p-4 shadow-sm hover:border-indigo-500/30 transition">
               <div class="text-2xl font-black text-indigo-600 dark:text-indigo-400">24/7</div>
               <div class="text-sm text-slate-500 dark:text-slate-400" data-i18n="hero.stat4">عقلية داعمة</div>
             </div>
@@ -211,9 +227,9 @@
                 <div class="text-sm text-slate-500 dark:text-slate-400" data-i18n="hero.cardrole">سكرتيرة تنفيذية</div>
               </div>
               <div class="flex items-center gap-3 text-indigo-600 dark:text-indigo-400 no-print">
-                <i class="fa-brands fa-linkedin text-xl"></i>
-                <i class="fa-brands fa-whatsapp text-xl"></i>
-                <i class="fa-brands fa-instagram text-xl"></i>
+                <a href="#" class="hover:scale-110 transition" aria-label="LinkedIn"><i class="fa-brands fa-linkedin text-xl"></i></a>
+                <a href="#" class="hover:scale-110 transition" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp text-xl"></i></a>
+                <a href="#" class="hover:scale-110 transition" aria-label="Instagram"><i class="fa-brands fa-instagram text-xl"></i></a>
               </div>
             </div>
           </div>
@@ -235,7 +251,7 @@
             </p>
 
             <div class="mt-8 grid sm:grid-cols-2 gap-4">
-              <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm">
+              <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm hover:border-indigo-500/30 transition">
                 <div class="flex items-center gap-3">
                   <div class="w-11 h-11 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center"><i class="fa-solid fa-circle-check"></i></div>
                   <div>
@@ -244,7 +260,7 @@
                   </div>
                 </div>
               </div>
-              <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm">
+              <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm hover:border-indigo-500/30 transition">
                 <div class="flex items-center gap-3">
                   <div class="w-11 h-11 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center"><i class="fa-solid fa-language"></i></div>
                   <div>
@@ -253,7 +269,7 @@
                   </div>
                 </div>
               </div>
-              <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm">
+              <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm hover:border-indigo-500/30 transition">
                 <div class="flex items-center gap-3">
                   <div class="w-11 h-11 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center"><i class="fa-solid fa-user-tie"></i></div>
                   <div>
@@ -262,7 +278,7 @@
                   </div>
                 </div>
               </div>
-              <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm">
+              <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm hover:border-indigo-500/30 transition">
                 <div class="flex items-center gap-3">
                   <div class="w-11 h-11 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center"><i class="fa-solid fa-shield-halved"></i></div>
                   <div>
@@ -276,10 +292,10 @@
 
           <div class="reveal order-1 lg:order-2">
             <div class="relative rounded-[2rem] overflow-hidden shadow-soft border border-white/60 dark:border-white/10 bg-white dark:bg-slate-900">
-              <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1200&h=900&fit=crop" alt="Workspace" class="w-full h-[420px] object-cover" />
+              <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1200&h=900&fit=crop" alt="Workspace" class="w-full h-[420px] object-cover hover:scale-105 transition duration-500" />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/25 to-transparent"></div>
               <div class="absolute bottom-0 p-6 sm:p-8 text-white">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 border border-white/20 text-sm">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 border border-white/20 text-sm backdrop-blur-md">
                   <i class="fa-solid fa-star"></i>
                   <span data-i18n="about.cardcaption">تحويل الجداول المزدحمة إلى أنظمة منظمة وهادئة</span>
                 </div>
@@ -311,30 +327,30 @@
           </div>
 
           <div class="reveal grid gap-4">
-            <div class="rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+            <div class="rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:border-indigo-500/30 transition">
               <div class="flex items-start gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center text-xl"><i class="fa-solid fa-calendar-days"></i></div>
+                <div class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center text-xl shrink-0"><i class="fa-solid fa-calendar-days"></i></div>
                 <div>
                   <div class="font-bold text-slate-900 dark:text-white" data-i18n="skills.card1title">إتقان الجدولة</div>
-                  <p class="mt-1 text-slate-600 dark:text-slate-400" data-i18n="skills.card1desc">إدارة الجداول والاجتماعات والسفر والأولويات بكفاءة عالية.</p>
+                  <p class="mt-1 text-slate-600 dark:text-slate-400 text-sm leading-6" data-i18n="skills.card1desc">إدارة الجداول والاجتماعات والسفر والأولويات بكفاءة عالية.</p>
                 </div>
               </div>
             </div>
-            <div class="rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+            <div class="rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:border-indigo-500/30 transition">
               <div class="flex items-start gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center text-xl"><i class="fa-solid fa-file-lines"></i></div>
+                <div class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center text-xl shrink-0"><i class="fa-solid fa-file-lines"></i></div>
                 <div>
                   <div class="font-bold text-slate-900 dark:text-white" data-i18n="skills.card2title">إعداد المستندات</div>
-                  <p class="mt-1 text-slate-600 dark:text-slate-400" data-i18n="skills.card2desc">تقارير ومذكرات ومراسلات وعروض احترافية.</p>
+                  <p class="mt-1 text-slate-600 dark:text-slate-400 text-sm leading-6" data-i18n="skills.card2desc">تقارير ومذكرات ومراسلات وعروض احترافية.</p>
                 </div>
               </div>
             </div>
-            <div class="rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+            <div class="rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:border-indigo-500/30 transition">
               <div class="flex items-start gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center text-xl"><i class="fa-solid fa-language"></i></div>
+                <div class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center text-xl shrink-0"><i class="fa-solid fa-language"></i></div>
                 <div>
                   <div class="font-bold text-slate-900 dark:text-white" data-i18n="skills.card3title">دعم الترجمة</div>
-                  <p class="mt-1 text-slate-600 dark:text-slate-400" data-i18n="skills.card3desc">تواصل واضح بين العربية والإنجليزية في العمليات اليومية.</p>
+                  <p class="mt-1 text-slate-600 dark:text-slate-400 text-sm leading-6" data-i18n="skills.card3desc">تواصل واضح بين العربية والإنجليزية في العمليات اليومية.</p>
                 </div>
               </div>
             </div>
@@ -356,36 +372,36 @@
           <div class="space-y-8">
             <article class="reveal relative pl-16 rtl:pl-0 rtl:pr-16">
               <div class="absolute left-0 rtl:left-auto rtl:right-0 top-1 w-10 h-10 rounded-full bg-indigo-600 text-white grid place-items-center shadow-soft"><i class="fa-solid fa-briefcase"></i></div>
-              <div class="rounded-[2rem] border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-6 shadow-sm">
+              <div class="rounded-[2rem] border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-6 shadow-sm hover:border-indigo-500/30 transition">
                 <div class="flex flex-wrap items-center justify-between gap-3">
                   <h3 class="text-xl font-bold text-slate-900 dark:text-white" data-i18n="exp.job1title">سكرتيرة تنفيذية أولى</h3>
                   <span class="px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 text-sm font-semibold" data-i18n="exp.job1date">2020 – الآن</span>
                 </div>
-                <p class="mt-2 text-slate-500 dark:text-slate-400" data-i18n="exp.job1company">مجموعة الفطيم، دبي</p>
+                <p class="mt-2 text-slate-500 dark:text-slate-400 font-medium" data-i18n="exp.job1company">مجموعة الفطيم، دبي</p>
                 <p class="mt-3 text-slate-600 dark:text-slate-400 leading-7" data-i18n="exp.job1desc">إدارة العمليات اليومية للمدير التنفيذي، وتنسيق اجتماعات مجلس الإدارة، والتعامل مع المراسلات الدولية.</p>
               </div>
             </article>
 
             <article class="reveal relative pl-16 rtl:pl-0 rtl:pr-16">
               <div class="absolute left-0 rtl:left-auto rtl:right-0 top-1 w-10 h-10 rounded-full bg-indigo-600 text-white grid place-items-center shadow-soft"><i class="fa-solid fa-building"></i></div>
-              <div class="rounded-[2rem] border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-6 shadow-sm">
+              <div class="rounded-[2rem] border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-6 shadow-sm hover:border-indigo-500/30 transition">
                 <div class="flex flex-wrap items-center justify-between gap-3">
                   <h3 class="text-xl font-bold text-slate-900 dark:text-white" data-i18n="exp.job2title">مساعدة إدارية</h3>
                   <span class="px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 text-sm font-semibold" data-i18n="exp.job2date">2016 – 2020</span>
                 </div>
-                <p class="mt-2 text-slate-500 dark:text-slate-400" data-i18n="exp.job2company">طيران الإمارات، دبي</p>
+                <p class="mt-2 text-slate-500 dark:text-slate-400 font-medium" data-i18n="exp.job2company">طيران الإمارات، دبي</p>
                 <p class="mt-3 text-slate-600 dark:text-slate-400 leading-7" data-i18n="exp.job2desc">دعم رؤساء الأقسام في الجدولة وإعداد المستندات والاتصالات الداخلية.</p>
               </div>
             </article>
 
             <article class="reveal relative pl-16 rtl:pl-0 rtl:pr-16">
               <div class="absolute left-0 rtl:left-auto rtl:right-0 top-1 w-10 h-10 rounded-full bg-indigo-600 text-white grid place-items-center shadow-soft"><i class="fa-solid fa-folder-open"></i></div>
-              <div class="rounded-[2rem] border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-6 shadow-sm">
+              <div class="rounded-[2rem] border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-6 shadow-sm hover:border-indigo-500/30 transition">
                 <div class="flex flex-wrap items-center justify-between gap-3">
                   <h3 class="text-xl font-bold text-slate-900 dark:text-white" data-i18n="exp.job3title">سكرتيرة مكتب</h3>
                   <span class="px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 text-sm font-semibold" data-i18n="exp.job3date">2013 – 2016</span>
                 </div>
-                <p class="mt-2 text-slate-500 dark:text-slate-400" data-i18n="exp.job3company">شركة تجارة محلية، القاهرة</p>
+                <p class="mt-2 text-slate-500 dark:text-slate-400 font-medium" data-i18n="exp.job3company">شركة تجارة محلية، القاهرة</p>
                 <p class="mt-3 text-slate-600 dark:text-slate-400 leading-7" data-i18n="exp.job3desc">إدارة مكتب الاستقبال والرد على استفسارات العملاء وحفظ السجلات.</p>
               </div>
             </article>
@@ -403,35 +419,35 @@
         </div>
 
         <div class="mt-14 grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
-          <div class="reveal group rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:-translate-y-1 transition">
-            <div class="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center text-2xl"><i class="fa-solid fa-calendar-check"></i></div>
+          <div class="reveal group rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:-translate-y-1 hover:border-indigo-500/40 transition">
+            <div class="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center text-2xl group-hover:scale-110 transition"><i class="fa-solid fa-calendar-check"></i></div>
             <h3 class="mt-5 text-lg font-bold text-slate-900 dark:text-white" data-i18n="services.card1title">دعم تنفيذي</h3>
-            <p class="mt-2 text-slate-600 dark:text-slate-400 leading-7" data-i18n="services.card1desc">تنسيق كامل للتقويم والسفر والاجتماعات للمديرين التنفيذيين.</p>
+            <p class="mt-2 text-slate-600 dark:text-slate-400 leading-7 text-sm" data-i18n="services.card1desc">تنسيق كامل للتقويم والسفر والاجتماعات للمديرين التنفيذيين.</p>
           </div>
-          <div class="reveal group rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:-translate-y-1 transition">
-            <div class="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center text-2xl"><i class="fa-solid fa-file-word"></i></div>
+          <div class="reveal group rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:-translate-y-1 hover:border-indigo-500/40 transition">
+            <div class="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center text-2xl group-hover:scale-110 transition"><i class="fa-solid fa-file-word"></i></div>
             <h3 class="mt-5 text-lg font-bold text-slate-900 dark:text-white" data-i18n="services.card2title">إعداد المستندات</h3>
-            <p class="mt-2 text-slate-600 dark:text-slate-400 leading-7" data-i18n="services.card2desc">تقارير وعروض ومراسلات احترافية بالعربية والإنجليزية.</p>
+            <p class="mt-2 text-slate-600 dark:text-slate-400 leading-7 text-sm" data-i18n="services.card2desc">تقارير وعروض ومراسلات احترافية بالعربية والإنجليزية.</p>
           </div>
-          <div class="reveal group rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:-translate-y-1 transition">
-            <div class="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center text-2xl"><i class="fa-solid fa-language"></i></div>
+          <div class="reveal group rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:-translate-y-1 hover:border-indigo-500/40 transition">
+            <div class="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center text-2xl group-hover:scale-110 transition"><i class="fa-solid fa-language"></i></div>
             <h3 class="mt-5 text-lg font-bold text-slate-900 dark:text-white" data-i18n="services.card3title">خدمات الترجمة</h3>
-            <p class="mt-2 text-slate-600 dark:text-slate-400 leading-7" data-i18n="services.card3desc">ترجمة دقيقة للمستندات والرسائل والترجمة الفورية.</p>
+            <p class="mt-2 text-slate-600 dark:text-slate-400 leading-7 text-sm" data-i18n="services.card3desc">ترجمة دقيقة للمستندات والرسائل والترجمة الفورية.</p>
           </div>
-          <div class="reveal group rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:-translate-y-1 transition">
-            <div class="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center text-2xl"><i class="fa-solid fa-sitemap"></i></div>
+          <div class="reveal group rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:-translate-y-1 hover:border-indigo-500/40 transition">
+            <div class="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center text-2xl group-hover:scale-110 transition"><i class="fa-solid fa-sitemap"></i></div>
             <h3 class="mt-5 text-lg font-bold text-slate-900 dark:text-white" data-i18n="services.card4title">إدارة المكاتب</h3>
-            <p class="mt-2 text-slate-600 dark:text-slate-400 leading-7" data-i18n="services.card4desc">تنظيم أنظمة الملفات والمستلزمات وسير العمل المكتبي.</p>
+            <p class="mt-2 text-slate-600 dark:text-slate-400 leading-7 text-sm" data-i18n="services.card4desc">تنظيم أنظمة الملفات والمستلزمات وسير العمل المكتبي.</p>
           </div>
-          <div class="reveal group rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:-translate-y-1 transition">
-            <div class="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center text-2xl"><i class="fa-solid fa-headset"></i></div>
+          <div class="reveal group rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:-translate-y-1 hover:border-indigo-500/40 transition">
+            <div class="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center text-2xl group-hover:scale-110 transition"><i class="fa-solid fa-headset"></i></div>
             <h3 class="mt-5 text-lg font-bold text-slate-900 dark:text-white" data-i18n="services.card5title">علاقات العملاء</h3>
-            <p class="mt-2 text-slate-600 dark:text-slate-400 leading-7" data-i18n="services.card5desc">نقطة الاتصال الأولى للزوار والمتصلين، لضمان صورة احترافية.</p>
+            <p class="mt-2 text-slate-600 dark:text-slate-400 leading-7 text-sm" data-i18n="services.card5desc">نقطة الاتصال الأولى للزوار والمتصلين، لضمان صورة احترافية.</p>
           </div>
-          <div class="reveal group rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:-translate-y-1 transition">
-            <div class="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center text-2xl"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="reveal group rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:-translate-y-1 hover:border-indigo-500/40 transition">
+            <div class="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center text-2xl group-hover:scale-110 transition"><i class="fa-solid fa-shield-halved"></i></div>
             <h3 class="mt-5 text-lg font-bold text-slate-900 dark:text-white" data-i18n="services.card6title">سرية البيانات</h3>
-            <p class="mt-2 text-slate-600 dark:text-slate-400 leading-7" data-i18n="services.card6desc">معالجة آمنة للبيانات الحساسة والامتثال للوائح الخصوصية.</p>
+            <p class="mt-2 text-slate-600 dark:text-slate-400 leading-7 text-sm" data-i18n="services.card6desc">معالجة آمنة للبيانات الحساسة والامتثال للوائح الخصوصية.</p>
           </div>
         </div>
       </div>
@@ -446,47 +462,49 @@
         </div>
 
         <div class="mt-14 grid lg:grid-cols-2 gap-8 items-start">
-          <!-- تم إخفاء النموذج من الطباعة عبر no-print في CSS -->
-          <form class="reveal rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-sm space-y-4 no-print">
+          <form id="contact-form" class="reveal rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-sm space-y-4 no-print">
             <div class="grid sm:grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-semibold mb-2 text-slate-600 dark:text-slate-400" data-i18n="contact.name_label">الاسم</label>
-                <input type="text" placeholder="الاسم" data-i18n-placeholder="contact.name" class="w-full px-4 py-3 rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-indigo-500 transition" />
+                <input type="text" required placeholder="الاسم" data-i18n-placeholder="contact.name" class="w-full px-4 py-3 rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-indigo-500 transition" />
               </div>
               <div>
                 <label class="block text-sm font-semibold mb-2 text-slate-600 dark:text-slate-400" data-i18n="contact.email_label_input">البريد الإلكتروني</label>
-                <input type="email" placeholder="البريد الإلكتروني" data-i18n-placeholder="contact.email" class="w-full px-4 py-3 rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-indigo-500 transition" />
+                <input type="email" required placeholder="البريد الإلكتروني" data-i18n-placeholder="contact.email" class="w-full px-4 py-3 rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-indigo-500 transition" />
               </div>
             </div>
             <div>
               <label class="block text-sm font-semibold mb-2 text-slate-600 dark:text-slate-400" data-i18n="contact.message_label">الرسالة</label>
-              <textarea rows="5" placeholder="الرسالة" data-i18n-placeholder="contact.message" class="w-full px-4 py-3 rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-indigo-500 transition"></textarea>
+              <textarea rows="5" required placeholder="الرسالة" data-i18n-placeholder="contact.message" class="w-full px-4 py-3 rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-indigo-500 transition"></textarea>
             </div>
-            <button type="submit" class="w-full px-6 py-3 rounded-2xl bg-indigo-600 text-white font-bold shadow-soft hover:bg-indigo-700 transition" data-i18n="contact.send">إرسال الرسالة</button>
+            <button type="submit" class="w-full px-6 py-3 rounded-2xl bg-indigo-600 text-white font-bold shadow-soft hover:bg-indigo-700 transition flex items-center justify-center gap-2" data-i18n="contact.send">
+              <span>إرسال الرسالة</span>
+              <i class="fa-solid fa-paper-plane text-xs"></i>
+            </button>
           </form>
 
           <div class="reveal grid gap-4">
-            <div class="rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+            <div class="rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:border-indigo-500/30 transition">
               <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center"><i class="fa-solid fa-envelope"></i></div>
+                <div class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center shrink-0"><i class="fa-solid fa-envelope"></i></div>
                 <div>
                   <div class="text-sm text-slate-500 dark:text-slate-400" data-i18n="contact.email_label">البريد الإلكتروني</div>
                   <div class="font-semibold text-slate-900 dark:text-white">sarah.ahmed@example.com</div>
                 </div>
               </div>
             </div>
-            <div class="rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+            <div class="rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:border-indigo-500/30 transition">
               <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center"><i class="fa-solid fa-phone"></i></div>
+                <div class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center shrink-0"><i class="fa-solid fa-phone"></i></div>
                 <div>
                   <div class="text-sm text-slate-500 dark:text-slate-400" data-i18n="contact.phone_label">الهاتف</div>
                   <div class="font-semibold text-slate-900 dark:text-white" dir="ltr">+971 50 123 4567</div>
                 </div>
               </div>
             </div>
-            <div class="rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+            <div class="rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:border-indigo-500/30 transition">
               <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center"><i class="fa-solid fa-location-dot"></i></div>
+                <div class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 grid place-items-center shrink-0"><i class="fa-solid fa-location-dot"></i></div>
                 <div>
                   <div class="text-sm text-slate-500 dark:text-slate-400" data-i18n="contact.location_label">الموقع</div>
                   <div class="font-semibold text-slate-900 dark:text-white" data-i18n="contact.location">دبي، الإمارات العربية المتحدة</div>
@@ -521,6 +539,8 @@
       const langToggleLabel = document.getElementById('lang-toggle-label');
       const typewriterEl = document.getElementById('typewriter');
       const topProgress = document.getElementById('top-progress');
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
 
       const translations = {
         en: {
@@ -599,7 +619,8 @@
           'footer.copy': '© 2025 Sarah Ahmed. All rights reserved.',
           'nav.name': 'Sarah Ahmed',
           'nav.role': 'Executive Secretary',
-          'lang.switchTitle': 'التبديل إلى العربية'
+          'lang.switchTitle': 'التبديل إلى العربية',
+          'toast.success': 'Thank you! Your message has been sent successfully.'
         },
         ar: {
           'hero.badge': 'ملف تنفيذي ثنائي اللغة',
@@ -677,7 +698,8 @@
           'footer.copy': '© 2025 سارة أحمد. جميع الحقوق محفوظة.',
           'nav.name': 'سارة أحمد',
           'nav.role': 'سكرتيرة تنفيذية',
-          'lang.switchTitle': 'Switch to English'
+          'lang.switchTitle': 'Switch to English',
+          'toast.success': 'شكراً لك! تم إرسال رسالتك بنجاح.'
         }
       };
 
@@ -692,7 +714,6 @@
       const revealEls = document.querySelectorAll('.reveal');
       const navLinks = document.querySelectorAll('[data-nav]');
 
-      /* ---------- الثيم ---------- */
       function applyTheme(isDark) {
         html.classList.toggle('dark', isDark);
         themeToggle.innerHTML = isDark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
@@ -700,7 +721,6 @@
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
       }
 
-      /* ---------- اللغة ---------- */
       function setLanguage(lang) {
         currentLang = lang;
         const isArabic = lang === 'ar';
@@ -709,7 +729,6 @@
         html.dir = isArabic ? 'rtl' : 'ltr';
         localStorage.setItem('lang', lang);
 
-        // زر اللغة الواحد: يظهر EN عندما تكون العربية معروضة، و AR عندما تكون الإنجليزية معروضة
         langToggleLabel.textContent = isArabic ? 'EN' : 'AR';
         langToggle.setAttribute('title', translations[lang]['lang.switchTitle'] || '');
         langToggle.setAttribute('aria-label', translations[lang]['lang.switchTitle'] || 'Toggle language');
@@ -729,7 +748,6 @@
           if (translations[lang][key]) el.placeholder = translations[lang][key];
         });
 
-        // اسم ووظيفة الشريط العلوي
         const navName = document.getElementById('nav-name');
         const navRole = document.getElementById('nav-role');
         if (navName) navName.textContent = translations[lang]['nav.name'];
@@ -783,7 +801,16 @@
         stopTyping = typewriter(typewriterWords[currentLang] || typewriterWords.en);
       }
 
-      /* ---------- الظهور التدريجي ---------- */
+      // إظهار Toast الاحترافي
+      function showToast(message) {
+        toastMessage.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3500);
+      }
+
+      // Observer للظهور التدريجي
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (!entry.isIntersecting) return;
@@ -801,7 +828,7 @@
 
       revealEls.forEach(el => observer.observe(el));
 
-      /* ---------- تفعيل روابط القائمة ---------- */
+      // تفعيل روابط الشريط العلوي عند التمرير
       const activeObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (!entry.isIntersecting) return;
@@ -812,14 +839,21 @@
 
       document.querySelectorAll('section[id]').forEach(section => activeObserver.observe(section));
 
-      /* ---------- شريط التقدم ---------- */
+      // تحسين أداء شريط التقدم بـ requestAnimationFrame
+      let ticking = false;
       document.addEventListener('scroll', () => {
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrolled = (window.scrollY / docHeight) * 100;
-        topProgress.style.width = `${Math.min(100, Math.max(0, scrolled))}%`;
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / docHeight) * 100;
+            topProgress.style.width = `${Math.min(100, Math.max(0, scrolled))}%`;
+            ticking = false;
+          });
+          ticking = true;
+        }
       }, { passive: true });
 
-      /* ---------- الأحداث ---------- */
+      // الأحداث
       themeToggle.addEventListener('click', () => {
         applyTheme(!html.classList.contains('dark'));
       });
@@ -830,6 +864,13 @@
 
       mobileToggle.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
       mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+      // إغلاق القائمة عند الضغط خارجها
+      document.addEventListener('click', (e) => {
+        if (!mobileMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
+          mobileMenu.classList.add('hidden');
+        }
+      });
 
       document.querySelectorAll('a[href^="#"]').forEach(a => {
         a.addEventListener('click', (e) => {
@@ -843,18 +884,18 @@
         });
       });
 
-      document.querySelector('form').addEventListener('submit', (e) => {
+      // التعامل مع إرسال النموذج مع Toast بدلاً من Alert
+      document.getElementById('contact-form').addEventListener('submit', (e) => {
         e.preventDefault();
-        const msg = currentLang === 'ar' ? 'شكراً! تم إرسال رسالتك.' : 'Thank you! Your message has been sent.';
-        alert(msg);
+        showToast(translations[currentLang]['toast.success']);
+        e.target.reset();
       });
 
-      /* ---------- القيم الافتراضية: نهاري + عربي ---------- */
-      // إذا لم يكن هناك ثيم محفوظ مسبقاً، سيكون الوضع النهاري هو الأساس (isDark = false)
-      const savedTheme = localStorage.getItem('theme'); 
+      // التهيئة الافتراضية
+      const savedTheme = localStorage.getItem('theme');
       applyTheme(savedTheme === 'dark');
 
-      const savedLang = localStorage.getItem('lang') || 'ar'; // الافتراضي عربي
+      const savedLang = localStorage.getItem('lang') || 'ar';
       setLanguage(savedLang);
     })();
   </script>
